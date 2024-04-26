@@ -325,14 +325,14 @@ mkdir -p /etc/ssh
 mkdir -p /usr/bin/xray/
 mkdir -p /var/log/xray/
 mkdir -p /var/www/html
-mkdir -p /etc/kyt/files/vmess/ip
-mkdir -p /etc/kyt/files/vless/ip
-mkdir -p /etc/kyt/files/trojan/ip
-mkdir -p /etc/kyt/files/ssh/ip
-mkdir -p /etc/files/vmess
-mkdir -p /etc/files/vless
-mkdir -p /etc/files/trojan
-mkdir -p /etc/files/ssh
+mkdir -p /etc/kyt/limit/vmess/ip
+mkdir -p /etc/kyt/limit/vless/ip
+mkdir -p /etc/kyt/limit/trojan/ip
+mkdir -p /etc/kyt/limit/ssh/ip
+mkdir -p /etc/vmess
+mkdir -p /etc/vless
+mkdir -p /etc/trojan
+mkdir -p /etc/ssh
 chmod +x /var/log/xray
 touch /etc/xray/domain
 touch /var/log/xray/access.log
@@ -453,7 +453,30 @@ chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip
 cd
+wget -q -O /usr/bin/limit-ip-ssh "${REPO}Fls/limit-ip-ssh"
+chmod +x /usr/bin/*
+cd /usr/bin
+sed -i 's/\r//' limit-ip-ssh
+cd
 clear
+cat >/etc/systemd/system/sship.service << EOF
+[Unit]
+Description=https://github.com/yogz-store
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/limit-ip-ssh
+Restart=always
+RestartSec=3
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Install]
+WantedBy=default.target
+EOF
+systemctl daemon-reload
+systemctl restart sship
+systemctl enable sship
 cat >/etc/systemd/system/vmip.service << EOF
 [Unit]
 Description=My

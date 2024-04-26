@@ -453,32 +453,7 @@ chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip
 cd
-wget -q -O /usr/bin/limit-ip "${REPO}Fls/limit-ip-ssh"
-chmod +x /usr/bin/*
-cd /usr/bin
-sed -i 's/\r//' limit-ip-ssh
-cd
 clear
-# // SERVICE LIMIT SSH
-cat >/etc/systemd/system/sship.service << EOF
-[Unit]
-Description=https://github.com/yogz-store
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/limit-ip-ssh
-Restart=always
-RestartSec=3
-StartLimitIntervalSec=60
-StartLimitBurst=5
-
-[Install]
-WantedBy=default.target
-EOF
-systemctl daemon-reload
-systemctl restart sship
-systemctl enable sship
-
 cat >/etc/systemd/system/vmip.service << EOF
 [Unit]
 Description=My

